@@ -1,0 +1,26 @@
+version: '3'
+services:
+  nestjs-app:
+    container_name: nestjs-app
+    platform: linux/arm64 
+    build:
+      
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules/
+
+    depends_on:
+      - mongodb
+    env_file:
+      - .docker.env
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+
+    ports:
+      - "27017:27017"
